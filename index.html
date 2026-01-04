@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EliteLedger Advisors LLC | Premier CPA & Advisory Firm</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0A1F44',
+                        charcoal: '#2E2E2E',
+                        platinum: '#F4F6F8',
+                        gold: '#C5A880',
+                        emerald: '#1F7A6D',
+                        emeraldHover: '#16594f',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-pattern {
+            background-color: #0A1F44;
+            background-image: linear-gradient(rgba(10, 31, 68, 0.92), rgba(10, 31, 68, 0.85)), url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="font-sans text-charcoal antialiased bg-platinum">
+
+    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-navy flex items-center justify-center text-gold font-serif text-xl font-bold">EL</div>
+                    <div>
+                        <span class="block font-serif text-xl font-bold text-navy tracking-tight">EliteLedger Advisors LLC</span>
+                        <span class="block text-xs uppercase tracking-widest text-gold font-medium">CPA & Advisory</span>
+                    </div>
+                </a>
+
+                <nav class="hidden lg:flex space-x-8 items-center">
+                    <a href="index.html" class="text-sm font-medium text-navy">Home</a>
+                    <a href="about.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">About</a>
+                    <a href="services.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">Services</a>
+                    <a href="pricing.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">Business Pricing</a>
+                    <a href="contact.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">Contact</a>
+
+                    <div class="relative">
+                        <button id="resourcesButton" class="text-sm font-medium text-charcoal hover:text-navy flex items-center gap-2" aria-expanded="false" aria-controls="resourcesMenu">
+                            Resources
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div id="resourcesMenu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg hidden">
+                            <a href="blog.html" class="block px-4 py-2 text-sm text-charcoal hover:bg-gray-100">CPA Blog</a>
+                            <a href="https://www.irs.gov" target="_blank" rel="noopener" class="block px-4 py-2 text-sm text-charcoal hover:bg-gray-100">IRS.gov</a>
+                        </div>
+                    </div>
+                </nav>
+                    </a>
+                    <a href="contact.html" class="px-6 py-3 text-sm font-medium rounded-sm text-white bg-emerald hover:bg-emeraldHover transition-all shadow-sm">
+                        Client Portal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative pt-40 pb-24 hero-pattern text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <span class="inline-block py-1 px-3 border border-gold/50 rounded-sm text-gold text-xs font-mono uppercase tracking-widest mb-6">
+                    Full-Service CPA Firm
+                </span>
+                <h1 class="text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6">
+                    Where Accuracy Meets Integrity
+                </h1>
+                <p class="text-xl text-gray-300 mb-10 leading-relaxed font-light">
+                    We simplify your finances, strengthen your business, and give you the confidence to make bold decisions for the future. Accounting is what we do best.
+                </p>
+                <div class="flex gap-4">
+                    <a href="contact.html" class="px-8 py-4 bg-white text-navy font-medium rounded-sm hover:bg-gray-100 transition-all">
+                        Free Consultation
+                    </a>
+                    <a href="services.html" class="px-8 py-4 border border-gray-400 text-white font-medium rounded-sm hover:border-white hover:bg-white/10 transition-all">
+                        View Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-sm font-mono text-emerald uppercase tracking-widest mb-3">Who We Are</h2>
+                    <h3 class="text-3xl font-serif font-bold text-navy mb-6">More Than Just Numbers</h3>
+                    <div class="prose text-gray-600 leading-relaxed">
+                        <p class="mb-4">
+                            At EliteLedger Advisors LLC, we take the time to understand your business, your goals, and your challenges. As a full-service CPA firm focused on businesses of all sizes, we provide customized accounting, tax, and advisory services.
+                        </p>
+                        <p>
+                            Opening your own business is exciting and thrilling. It's everything that comes after that dictates whether a small business will make it or not. We can help.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-platinum p-10 border-l-4 border-gold">
+                    <h4 class="text-navy font-serif text-2xl mb-4">Latest Insights</h4>
+                    <ul class="space-y-4">
+                        <li class="pb-4 border-b border-gray-200">
+                            <a href="#" class="block hover:text-emerald transition-colors">
+                                <span class="text-xs text-gray-500 block mb-1">Tax Update</span>
+                                <span class="font-medium text-navy">The Tax Implications of Remote Work</span>
+                            </a>
+                        </li>
+                        <li class="pb-4 border-b border-gray-200">
+                            <a href="#" class="block hover:text-emerald transition-colors">
+                                <span class="text-xs text-gray-500 block mb-1">Business Strategy</span>
+                                <span class="font-medium text-navy">NOL Deductions & Business Losses</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block hover:text-emerald transition-colors">
+                                <span class="text-xs text-gray-500 block mb-1">Deductions</span>
+                                <span class="font-medium text-navy">New Tax Deduction for Car Loan Interest</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-platinum">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-sm font-mono text-emerald uppercase tracking-widest mb-3">Engagement Models</h2>
+                <h3 class="text-3xl font-serif font-bold text-navy">Our Pricing Options</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 border-t-4 border-gray-400 shadow-sm hover:shadow-lg transition-all">
+                    <h4 class="text-2xl font-serif font-bold text-navy mb-2">Tax</h4>
+                    <p class="text-gray-500 text-sm mb-6">Essential compliance.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Federal Tax Return Prep</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> State Tax Return (One state)</li>
+                    </ul>
+                    <a href="contact.html" class="block w-full text-center py-3 border border-navy text-navy font-medium hover:bg-navy hover:text-white transition-colors">Get Started</a>
+                </div>
+
+                <div class="bg-navy p-8 border-t-4 border-gold shadow-xl transform md:-translate-y-2 text-white">
+                    <h4 class="text-2xl font-serif font-bold text-white mb-2">Tax + Planning</h4>
+                    <p class="text-gray-300 text-sm mb-6">Proactive strategy.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-300">
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Everything in Tax</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> 2 Annual Planning Meetings</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> 2 Annual Tax Projections</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Agency Notice Review</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Email/Phone Support</li>
+                    </ul>
+                    <a href="contact.html" class="block w-full text-center py-3 bg-emerald text-white font-medium hover:bg-emeraldHover transition-colors">Recommended</a>
+                </div>
+
+                <div class="bg-white p-8 border-t-4 border-gray-400 shadow-sm hover:shadow-lg transition-all">
+                    <h4 class="text-2xl font-serif font-bold text-navy mb-2">Bookkeeping</h4>
+                    <p class="text-gray-500 text-sm mb-6">Complete financial management.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Everything in Tax + Planning</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Monthly Bank Reconciliations</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Credit Card Reconciliations</li>
+                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Financial Statements</li>
+                    </ul>
+                    <a href="contact.html" class="block w-full text-center py-3 border border-navy text-navy font-medium hover:bg-navy hover:text-white transition-colors">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-navy text-white pt-16 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <span class="font-serif text-2xl font-bold text-white">EliteLedger Advisors LLC</span>
+                    <p class="mt-4 text-gray-400 text-sm max-w-md">
+                        A full-service CPA firm focused on simplifying your finances and strengthening your business.
+                    </p>
+                    <div class="mt-6 flex gap-4 text-sm text-gray-400">
+                        <p>1531 WestMinister Drive Unit 106, Naperville, Illinois, 60563</p>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="text-gold text-xs uppercase tracking-widest mb-4">Contact</h5>
+                    <p class="text-white text-lg font-serif mb-2">(217) 305-1755</p>
+                    <a href="mailto:EliteLedgerAdvisorsLLC@gmail.com" class="text-gray-400 hover:text-white transition-colors">EliteLedgerAdvisorsLLC@gmail.com</a>
+                </div>
+                <div>
+                    <h5 class="text-gold text-xs uppercase tracking-widest mb-4">Client Center</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">SecureSend</a></li>
+                        <li><a href="#" class="hover:text-white">Client Portal</a></li>
+                        <li><a href="#" class="hover:text-white">Pay Online</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center text-xs text-gray-500">
+                <p>&copy; EliteLedgerAdvisorsLLC@gmail.com. All rights reserved.</p>
+            </div> 
+        </div>
+    </footer>
+    <!-- All custom JavaScript removed as requested -->
+</body>
+</html>
