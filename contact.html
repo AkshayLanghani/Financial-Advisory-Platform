@@ -180,3 +180,101 @@
     </script>
 </body>
 </html>
+
+<!-- BEGIN: EliteLedger Chat Assistant widget -->
+<style>
+    .ela-chat{position:fixed;right:20px;bottom:20px;z-index:9999;font-family:Inter,Arial,system-ui}
+    .ela-toggle{background:#1F7A6D;color:#fff;border-radius:999px;padding:12px 16px;box-shadow:0 6px 18px rgba(15,23,42,0.2);cursor:pointer;border:none}
+    .ela-panel{width:360px;max-width:92vw;height:520px;max-height:78vh;background:#ffffff;border-radius:12px;box-shadow:0 12px 40px rgba(10,31,68,0.15);overflow:hidden;display:flex;flex-direction:column}
+    .ela-header{background:#0A1F44;color:#fff;padding:12px 14px;display:flex;align-items:center;gap:8px}
+    .ela-title{font-weight:700;font-family:Playfair Display,serif}
+    .ela-body{flex:1;padding:12px;overflow:auto;background:linear-gradient(180deg,#f8fafc, #fff)}
+    .ela-msg{display:block;margin:8px 0;padding:10px 12px;border-radius:10px;max-width:85%}
+    .ela-msg.user{background:#DCFCE7;margin-left:auto;color:#064e3b}
+    .ela-msg.bot{background:#f1f5f9;color:#0f172a}
+    .ela-input{display:flex;border-top:1px solid #e6eef2;padding:10px;background:#fff}
+    .ela-input input{flex:1;padding:10px;border-radius:8px;border:1px solid #e6eef2;margin-right:8px}
+    .ela-input button{background:#1F7A6D;color:#fff;border:none;padding:10px 12px;border-radius:8px}
+    .ela-loading{width:18px;height:18px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:ela-spin 1s linear infinite}
+    @keyframes ela-spin{to{transform:rotate(360deg)}}
+    @media (max-width:640px){.ela-panel{right:8px;left:8px;width:auto;bottom:90px;height:60vh}}
+</style>
+
+<div class="ela-chat" aria-hidden="false">
+    <div id="elaToggleWrapper">
+        <button id="elaToggle" class="ela-toggle" aria-expanded="false">EliteLedger Chat</button>
+    </div>
+    <div id="elaPanel" class="ela-panel" style="display:none;">
+        <div class="ela-header">
+            <div style="width:40px;height:40px;border-radius:8px;background:#C5A880;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0A1F44">EL</div>
+            <div style="flex:1">
+                <div class="ela-title">EliteLedger Chat Assistant</div>
+                <div style="font-size:12px;opacity:0.85">Ask about accounting, tax, bookkeeping, CPA services</div>
+            </div>
+            <button id="elaClose" title="Close" style="background:transparent;border:none;color:#fff;font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div id="elaBody" class="ela-body" role="log" aria-live="polite"></div>
+        <form id="elaForm" class="ela-input" onsubmit="return false;">
+            <input id="elaInput" type="text" placeholder="Type a question about accounting or tax..." aria-label="Message" autocomplete="off"/>
+            <button id="elaSend" type="button">Send</button>
+        </form>
+    </div>
+</div>
+
+<script>
+(function(){
+    const toggleBtn=document.getElementById('elaToggle');
+    const panel=document.getElementById('elaPanel');
+    const closeBtn=document.getElementById('elaClose');
+    const body=document.getElementById('elaBody');
+    const input=document.getElementById('elaInput');
+    const sendBtn=document.getElementById('elaSend');
+
+    let lastSent=0; // simple flood control
+
+    function openPanel(){ panel.style.display='flex'; toggleBtn.setAttribute('aria-expanded','true'); input.focus(); }
+    function closePanel(){ panel.style.display='none'; toggleBtn.setAttribute('aria-expanded','false'); }
+
+    toggleBtn.addEventListener('click', ()=>{ if(panel.style.display==='flex') closePanel(); else openPanel(); });
+    closeBtn.addEventListener('click', closePanel);
+
+    function appendMessage(text, who){
+        const el=document.createElement('div'); el.className='ela-msg '+(who==='user'?'user':'bot'); el.textContent=text; body.appendChild(el); body.scrollTop = body.scrollHeight;
+    }
+
+    function appendLoading(){ const el=document.createElement('div'); el.className='ela-msg bot'; el.id='ela-loading'; el.style.display='flex'; el.style.alignItems='center'; el.style.gap='8px'; const spinner=document.createElement('div'); spinner.className='ela-loading'; el.appendChild(spinner); const t=document.createElement('div'); t.textContent='Thinking...'; el.appendChild(t); body.appendChild(el); body.scrollTop = body.scrollHeight; }
+    function removeLoading(){ const l=document.getElementById('ela-loading'); if(l) l.remove(); }
+
+    async function sendMessage(text){
+        const now=Date.now(); if(now - lastSent < 1200) { appendMessage('Please wait a moment before sending another message.', 'bot'); return; }
+        lastSent = now; appendMessage(text,'user'); appendLoading(); sendBtn.disabled=true; input.disabled=true;
+
+        try{
+            // POST to your server-side proxy at /api/gemini
+            const API_ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:3000/api/gemini' : '/api/gemini';
+            const res = await fetch(API_ENDPOINT, {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    // system prompt is included here but should be enforced server-side too
+                    system: "You are a chatbot for EliteLedger Advisors LLC. Only answer questions related to accounting, bookkeeping, tax services, CPA advisory, and services provided by EliteLedger Advisors LLC. Do not answer unrelated questions. Keep answers professional and concise.",
+                    message: text
+                })
+            });
+
+            if(!res.ok) throw new Error('Network response not ok');
+            const data = await res.json();
+            removeLoading();
+            if(data && data.reply){ appendMessage(data.reply, 'bot'); }
+            else { appendMessage('Sorry — no reply received. Try again later.', 'bot'); }
+        }catch(err){ removeLoading(); appendMessage('Error contacting assistant. Please try again later.','bot'); console.error(err); }
+        finally{ sendBtn.disabled=false; input.disabled=false; input.value=''; input.focus(); }
+    }
+
+    sendBtn.addEventListener('click', ()=>{ const v=input.value.trim(); if(!v) return; sendMessage(v); });
+    input.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendBtn.click(); } });
+
+    // welcome message
+    appendMessage('Hi — I can help with accounting, tax, bookkeeping, and CPA services. Ask me anything related to EliteLedger Advisors LLC.', 'bot');
+})();
+</script>
+<!-- END: EliteLedger Chat Assistant widget -->
