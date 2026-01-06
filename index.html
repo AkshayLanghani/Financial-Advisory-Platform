@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EliteLedger Advisors LLC - Premier full-service CPA firm offering tax, bookkeeping, and advisory services for businesses.">
+    <meta name="theme-color" content="#0A1F44">
     <title>EliteLedger Advisors LLC | Premier CPA & Advisory Firm</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,66 +41,213 @@
             background-size: cover;
             background-position: center;
         }
+        
+        .nav-link {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #1F7A6D;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            margin-left: auto;
+        }
+        
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 3px;
+            background-color: #0A1F44;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+        
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 96px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 40;
+        }
+        
+        .mobile-nav.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .mobile-nav a {
+            display: block;
+            padding: 16px 24px;
+            text-sm font-medium;
+            color: #2E2E2E;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+        
+        .mobile-nav a:hover {
+            background-color: #f9fafb;
+            color: #1F7A6D;
+            padding-left: 32px;
+        }
+        
+        .mobile-nav a.active {
+            background-color: #f9fafb;
+            color: #1F7A6D;
+            border-left: 3px solid #1F7A6D;
+            padding-left: 21px;
+        }
+        
+        .mobile-nav .cta-button {
+            display: block;
+            margin: 12px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1F7A6D 0%, #0A1F44 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .mobile-nav .cta-button:hover {
+            box-shadow: 0 4px 12px rgba(31, 122, 109, 0.3);
+            transform: scale(1.02);
+        }
+        
+        @media (max-width: 1024px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body class="font-sans text-charcoal antialiased bg-platinum">
 
-    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <header class="fixed w-full z-50 bg-white border-b border-gray-200 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
-                <a href="index.html" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-navy flex items-center justify-center text-gold font-serif text-xl font-bold">EL</div>
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                    <div class="w-12 h-12 bg-gradient-to-br from-navy to-emerald flex items-center justify-center text-gold font-serif text-lg font-bold rounded-lg shadow-md">EL</div>
                     <div>
-                        <span class="block font-serif text-xl font-bold text-navy tracking-tight">EliteLedger Advisors LLC</span>
-                        <span class="block text-xs uppercase tracking-widest text-gold font-medium">CPA & Advisory</span>
+                        <span class="block font-serif text-xl font-bold text-navy tracking-tight">EliteLedger</span>
+                        <span class="block text-xs uppercase tracking-widest text-emerald font-semibold">CPA Advisors</span>
                     </div>
                 </a>
 
-                <nav class="hidden lg:flex space-x-8 items-center">
-                    <a href="index.html" class="text-sm font-medium text-navy">Home</a>
-                    <a href="about.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">About</a>
-                    <a href="services.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">Services</a>
-                    <a href="pricing.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">Business Pricing</a>
-                    <a href="contact.html" class="text-sm font-medium text-charcoal hover:text-navy transition-colors">Contact</a>
+                <nav class="hidden lg:flex space-x-12 items-center">
+                    <a href="index.html" class="nav-link active text-sm font-medium text-charcoal hover:text-navy transition-colors">Home</a>
+                    <a href="about.html" class="nav-link text-sm font-medium text-charcoal hover:text-navy transition-colors">About</a>
+                    <a href="services.html" class="nav-link text-sm font-medium text-charcoal hover:text-navy transition-colors">Services</a>
+                    <a href="pricing.html" class="nav-link text-sm font-medium text-charcoal hover:text-navy transition-colors">Pricing</a>
+                    <a href="contact.html" class="nav-link text-sm font-medium text-charcoal hover:text-navy transition-colors">Contact</a>
 
-                    <div class="relative">
-                        <button id="resourcesButton" class="text-sm font-medium text-charcoal hover:text-navy flex items-center gap-2" aria-expanded="false" aria-controls="resourcesMenu">
+                    <div class="relative group">
+                        <button class="nav-link text-sm font-medium text-charcoal hover:text-navy flex items-center gap-2 transition-colors">
                             Resources
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            <svg class="w-3 h-3 group-hover:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
-                        <div id="resourcesMenu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg hidden">
-                            <a href="blog.html" class="block px-4 py-2 text-sm text-charcoal hover:bg-gray-100">CPA Blog</a>
-                            <a href="https://www.irs.gov" target="_blank" rel="noopener" class="block px-4 py-2 text-sm text-charcoal hover:bg-gray-100">IRS.gov</a>
+                        <div class="absolute right-0 mt-0 w-48 bg-white border border-gray-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50">
+                            <a href="blog.html" class="block px-4 py-2.5 text-sm text-charcoal hover:bg-platinum hover:text-emerald transition-colors">📝 CPA Blog</a>
+                            <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="block px-4 py-2.5 text-sm text-charcoal hover:bg-platinum hover:text-emerald transition-colors">🏛️ IRS.gov</a>
                         </div>
                     </div>
                 </nav>
-                    </a>
-                    <a href="contact.html" class="px-6 py-3 text-sm font-medium rounded-sm text-white bg-emerald hover:bg-emeraldHover transition-all shadow-sm">
-                        Client Portal
+                
+                <button id="mobileMenuToggle" class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <nav id="mobileNav" class="mobile-nav">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="pricing.html">Pricing</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer">IRS.gov</a>
+                    <a href="contact.html" class="cta-button">Get Started</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <a href="contact.html" class="hidden md:inline-block px-6 py-2.5 text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-emerald to-emerald hover:shadow-lg hover:scale-105 transition-all duration-300 shadow-md">
+                        Get Started
                     </a>
                 </div>
             </div>
         </div>
     </header>
 
-    <section class="relative pt-40 pb-24 hero-pattern text-white">
+    <section class="relative pt-40 pb-32 hero-pattern text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" fill-rule=\"evenodd\"><g fill=\"%23ffffff\" fill-opacity=\"0.1\"><path d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/></g></g></svg>')"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="max-w-3xl">
-                <span class="inline-block py-1 px-3 border border-gold/50 rounded-sm text-gold text-xs font-mono uppercase tracking-widest mb-6">
-                    Full-Service CPA Firm
-                </span>
-                <h1 class="text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6">
-                    Where Accuracy Meets Integrity
+                <div class="inline-block mb-6 px-4 py-1.5 border border-gold/40 rounded-full text-gold text-xs font-mono uppercase tracking-widest bg-gold/5 backdrop-blur">
+                    ✨ Premier CPA Firm
+                </div>
+                <h1 class="text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6">
+                    Where Accuracy <span class="text-gold">Meets</span> Excellence
                 </h1>
-                <p class="text-xl text-gray-300 mb-10 leading-relaxed font-light">
-                    We simplify your finances, strengthen your business, and give you the confidence to make bold decisions for the future. Accounting is what we do best.
+                <p class="text-xl text-gray-200 mb-10 leading-relaxed font-light">
+                    We simplify complex finances, strengthen your business, and empower confident decisions. Expert tax, accounting, and advisory services built on integrity.
                 </p>
-                <div class="flex gap-4">
-                    <a href="contact.html" class="px-8 py-4 bg-white text-navy font-medium rounded-sm hover:bg-gray-100 transition-all">
-                        Free Consultation
+                <div class="flex flex-wrap gap-4">
+                    <a href="contact.html" class="px-8 py-4 bg-gold text-navy font-semibold rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300 shadow-lg">
+                        Free Strategy Consultation
                     </a>
-                    <a href="services.html" class="px-8 py-4 border border-gray-400 text-white font-medium rounded-sm hover:border-white hover:bg-white/10 transition-all">
-                        View Services
+                    <a href="services.html" class="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
+                        Explore Services
                     </a>
                 </div>
             </div>
@@ -147,122 +296,222 @@
         </div>
     </section>
 
-    <section class="py-20 bg-platinum">
+    <section class="py-32 bg-gradient-to-b from-white to-platinum">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-sm font-mono text-emerald uppercase tracking-widest mb-3">Engagement Models</h2>
-                <h3 class="text-3xl font-serif font-bold text-navy">Our Pricing Options</h3>
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <h2 class="text-sm font-mono text-emerald uppercase tracking-widest mb-3 font-semibold">💰 Flexible Solutions</h2>
+                <h3 class="text-4xl font-serif font-bold text-navy">Service Packages</h3>
+                <p class="text-gray-600 mt-4">Choose the engagement model that best fits your business needs</p>
             </div>
             
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 border-t-4 border-gray-400 shadow-sm hover:shadow-lg transition-all">
-                    <h4 class="text-2xl font-serif font-bold text-navy mb-2">Tax</h4>
-                    <p class="text-gray-500 text-sm mb-6">Essential compliance.</p>
-                    <ul class="space-y-3 mb-8 text-sm text-gray-600">
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Federal Tax Return Prep</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> State Tax Return (One state)</li>
-                    </ul>
-                    <a href="contact.html" class="block w-full text-center py-3 border border-navy text-navy font-medium hover:bg-navy hover:text-white transition-colors">Get Started</a>
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="group relative bg-white p-8 rounded-2xl border border-gray-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative">
+                        <h4 class="text-2xl font-serif font-bold text-navy mb-2">Tax Essentials</h4>
+                        <p class="text-gray-500 text-sm mb-6">Core compliance & preparation</p>
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-start gap-3">
+                                <span class="text-emerald text-lg">✓</span>
+                                <span class="text-sm text-gray-600">Federal tax return preparation</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-emerald text-lg">✓</span>
+                                <span class="text-sm text-gray-600">State tax filing (one state)</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-emerald text-lg">✓</span>
+                                <span class="text-sm text-gray-600">Basic tax advice</span>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="block w-full text-center py-3 border-2 border-navy text-navy font-semibold rounded-lg hover:bg-navy hover:text-white transition-all duration-300">Get Started</a>
+                    </div>
                 </div>
 
-                <div class="bg-navy p-8 border-t-4 border-gold shadow-xl transform md:-translate-y-2 text-white">
-                    <h4 class="text-2xl font-serif font-bold text-white mb-2">Tax + Planning</h4>
-                    <p class="text-gray-300 text-sm mb-6">Proactive strategy.</p>
-                    <ul class="space-y-3 mb-8 text-sm text-gray-300">
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Everything in Tax</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> 2 Annual Planning Meetings</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> 2 Annual Tax Projections</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Agency Notice Review</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Email/Phone Support</li>
-                    </ul>
-                    <a href="contact.html" class="block w-full text-center py-3 bg-emerald text-white font-medium hover:bg-emeraldHover transition-colors">Recommended</a>
+                <div class="group relative bg-gradient-to-br from-navy to-navy/95 p-8 rounded-2xl shadow-2xl transform md:scale-105 hover:scale-110 transition-all duration-300">
+                    <div class="absolute -top-4 -right-4 bg-gold px-4 py-1 rounded-full text-navy font-bold text-sm">POPULAR</div>
+                    <div class="relative text-white">
+                        <h4 class="text-2xl font-serif font-bold mb-2">Tax + Planning</h4>
+                        <p class="text-gray-300 text-sm mb-6">Proactive wealth strategy</p>
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-start gap-3">
+                                <span class="text-gold text-lg">✓</span>
+                                <span class="text-sm text-gray-300">Everything in Tax Essentials</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-gold text-lg">✓</span>
+                                <span class="text-sm text-gray-300">2 annual planning meetings</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-gold text-lg">✓</span>
+                                <span class="text-sm text-gray-300">Tax projections & analysis</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-gold text-lg">✓</span>
+                                <span class="text-sm text-gray-300">Priority email/phone support</span>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="block w-full text-center py-3 bg-gradient-to-r from-gold to-gold text-navy font-semibold rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300">Start Free Consultation</a>
+                    </div>
                 </div>
 
-                <div class="bg-white p-8 border-t-4 border-gray-400 shadow-sm hover:shadow-lg transition-all">
-                    <h4 class="text-2xl font-serif font-bold text-navy mb-2">Bookkeeping</h4>
-                    <p class="text-gray-500 text-sm mb-6">Complete financial management.</p>
-                    <ul class="space-y-3 mb-8 text-sm text-gray-600">
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Everything in Tax + Planning</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Monthly Bank Reconciliations</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Credit Card Reconciliations</li>
-                        <li class="flex items-center"><span class="text-gold mr-2">▪</span> Financial Statements</li>
-                    </ul>
-                    <a href="contact.html" class="block w-full text-center py-3 border border-navy text-navy font-medium hover:bg-navy hover:text-white transition-colors">Get Started</a>
+                <div class="group relative bg-white p-8 rounded-2xl border border-gray-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative">
+                        <h4 class="text-2xl font-serif font-bold text-navy mb-2">Complete Management</h4>
+                        <p class="text-gray-500 text-sm mb-6">Full financial oversight</p>
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-start gap-3">
+                                <span class="text-emerald text-lg">✓</span>
+                                <span class="text-sm text-gray-600">Everything in Tax + Planning</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-emerald text-lg">✓</span>
+                                <span class="text-sm text-gray-600">Monthly bank reconciliation</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-emerald text-lg">✓</span>
+                                <span class="text-sm text-gray-600">Financial statements & reporting</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="text-emerald text-lg">✓</span>
+                                <span class="text-sm text-gray-600">Dedicated account manager</span>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="block w-full text-center py-3 border-2 border-navy text-navy font-semibold rounded-lg hover:bg-navy hover:text-white transition-all duration-300">Get Started</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-navy text-white pt-16 pb-8 border-t border-white/10">
+    <footer class="bg-black text-white pt-20 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
                 <div class="col-span-1 md:col-span-2">
-                    <span class="font-serif text-2xl font-bold text-white">EliteLedger Advisors LLC</span>
-                    <p class="mt-4 text-gray-400 text-sm max-w-md">
-                        A full-service CPA firm focused on simplifying your finances and strengthening your business.
-                    </p>
-                    <div class="mt-6 flex gap-4 text-sm text-gray-400">
-                        <p>1531 WestMinister Drive Unit 106, Naperville, Illinois, 60563</p>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-gold to-emerald rounded-lg flex items-center justify-center text-white font-bold">EL</div>
+                        <span class="font-serif text-xl font-bold">EliteLedger Advisors</span>
                     </div>
+                    <p class="text-gray-400 text-sm max-w-sm">
+                        Premier CPA firm dedicated to simplifying your finances and strengthening your business.
+                    </p>
                 </div>
                 <div>
-                    <h5 class="text-gold text-xs uppercase tracking-widest mb-4">Contact</h5>
-                    <p class="text-white text-lg font-serif mb-2">(217) 305-1755</p>
-                    <a href="mailto:EliteLedgerAdvisorsLLC@gmail.com" class="text-gray-400 hover:text-white transition-colors">EliteLedgerAdvisorsLLC@gmail.com</a>
-                </div>
-                <div>
-                    <h5 class="text-gold text-xs uppercase tracking-widest mb-4">Client Center</h5>
+                    <h5 class="text-gold text-sm uppercase tracking-widest font-bold mb-4">Quick Links</h5>
                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white">SecureSend</a></li>
-                        <li><a href="#" class="hover:text-white">Client Portal</a></li>
-                        <li><a href="#" class="hover:text-white">Pay Online</a></li>
+                        <li><a href="index.html" class="hover:text-gold transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-gold transition-colors">About</a></li>
+                        <li><a href="services.html" class="hover:text-gold transition-colors">Services</a></li>
+                        <li><a href="blog.html" class="hover:text-gold transition-colors">Blog</a></li>
                     </ul>
                 </div>
+                <div>
+                    <h5 class="text-gold text-sm uppercase tracking-widest font-bold mb-4">Contact</h5>
+                    <p class="text-gray-400 text-sm mb-2">(217) 305-1755</p>
+                    <a href="mailto:EliteLedgerAdvisorsLLC@gmail.com" class="text-gray-400 text-sm hover:text-gold transition-colors">EliteLedgerAdvisorsLLC@gmail.com</a>
+                    <p class="text-gray-400 text-sm mt-4">1531 WestMinister Drive<br/>Naperville, IL 60563</p>
+                </div>
             </div>
-            <div class="border-t border-white/10 pt-8 text-center text-xs text-gray-500">
-                <p>&copy; EliteLedgerAdvisorsLLC@gmail.com. All rights reserved.</p>
-            </div> 
+            <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
+                <p>&copy; 2026 EliteLedger Advisors LLC. All rights reserved.</p>
+            </div>
         </div>
     </footer>
-    <!-- All custom JavaScript removed as requested -->
 </body>
 </html>
 
+<script defer>
+// Resources Dropdown
+(function() {
+    const resourcesButton = document.getElementById('resourcesButton');
+    const resourcesMenu = document.getElementById('resourcesMenu');
+    
+    if (resourcesButton) {
+        resourcesButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isHidden = resourcesMenu.classList.contains('hidden');
+            resourcesMenu.classList.toggle('hidden');
+            resourcesButton.setAttribute('aria-expanded', !isHidden);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!resourcesButton.contains(e.target) && !resourcesMenu.contains(e.target)) {
+                resourcesMenu.classList.add('hidden');
+                resourcesButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+})();
+</script>
+
+<script>
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    
+    if (mobileMenuToggle && mobileNav) {
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+        });
+        
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                mobileNav.classList.remove('active');
+            });
+        });
+    }
+</script>
+
 <!-- BEGIN: EliteLedger Chat Assistant widget -->
 <style>
-    .ela-chat{position:fixed;right:20px;bottom:20px;z-index:9999;font-family:Inter,Arial,system-ui}
-    .ela-toggle{background:#1F7A6D;color:#fff;border-radius:999px;padding:12px 16px;box-shadow:0 6px 18px rgba(15,23,42,0.2);cursor:pointer;border:none}
-    .ela-panel{width:360px;max-width:92vw;height:520px;max-height:78vh;background:#ffffff;border-radius:12px;box-shadow:0 12px 40px rgba(10,31,68,0.15);overflow:hidden;display:flex;flex-direction:column}
-    .ela-header{background:#0A1F44;color:#fff;padding:12px 14px;display:flex;align-items:center;gap:8px}
-    .ela-title{font-weight:700;font-family:Playfair Display,serif}
-    .ela-body{flex:1;padding:12px;overflow:auto;background:linear-gradient(180deg,#f8fafc, #fff)}
-    .ela-msg{display:block;margin:8px 0;padding:10px 12px;border-radius:10px;max-width:85%}
-    .ela-msg.user{background:#DCFCE7;margin-left:auto;color:#064e3b}
-    .ela-msg.bot{background:#f1f5f9;color:#0f172a}
-    .ela-input{display:flex;border-top:1px solid #e6eef2;padding:10px;background:#fff}
-    .ela-input input{flex:1;padding:10px;border-radius:8px;border:1px solid #e6eef2;margin-right:8px}
-    .ela-input button{background:#1F7A6D;color:#fff;border:none;padding:10px 12px;border-radius:8px}
-    .ela-loading{width:18px;height:18px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:ela-spin 1s linear infinite}
+    .ela-chat{position:fixed;right:24px;bottom:24px;z-index:9999;font-family:Inter,Arial,system-ui}
+    .ela-toggle{background:linear-gradient(135deg,#1F7A6D 0%,#0A1F44 100%);color:#fff;border-radius:999px;padding:14px 18px;box-shadow:0 8px 24px rgba(31,122,109,0.3);cursor:pointer;border:none;font-weight:600;font-size:14px;transition:all 0.3s ease}
+    .ela-toggle:hover{transform:scale(1.05);box-shadow:0 12px 32px rgba(31,122,109,0.4)}
+    .ela-panel{width:400px;max-width:92vw;height:560px;max-height:80vh;background:#ffffff;border-radius:20px;box-shadow:0 20px 60px rgba(10,31,68,0.2);overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(197,168,128,0.2)}
+    .ela-header{background:linear-gradient(135deg,#0A1F44 0%,#1F7A6D 100%);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
+    .ela-logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#C5A880 0%,#1F7A6D 100%);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;box-shadow:0 4px 12px rgba(197,168,128,0.3)}
+    .ela-header-text{flex:1}
+    .ela-title{font-weight:700;font-family:Playfair Display,serif;font-size:16px;color:#fff}
+    .ela-subtitle{font-size:11px;opacity:0.9;color:#C5A880;margin-top:2px}
+    .ela-close{background:transparent;border:none;color:#fff;font-size:20px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all 0.2s;hover:background:rgba(255,255,255,0.1)}
+    .ela-body{flex:1;padding:16px;overflow:auto;background:linear-gradient(to bottom,#f9fafb 0%,#fff 50%);font-size:14px;line-height:1.5}
+    .ela-body::-webkit-scrollbar{width:6px}
+    .ela-body::-webkit-scrollbar-track{background:#f0f0f0;border-radius:3px}
+    .ela-body::-webkit-scrollbar-thumb{background:#C5A880;border-radius:3px}
+    .ela-body::-webkit-scrollbar-thumb:hover{background:#1F7A6D}
+    .ela-msg{display:block;margin:8px 0;padding:12px 14px;border-radius:12px;max-width:85%;word-wrap:break-word}
+    .ela-msg.user{background:linear-gradient(135deg,#1F7A6D 0%,#16594f 100%);margin-left:auto;color:#fff;border-radius:14px 4px 14px 14px;box-shadow:0 2px 8px rgba(31,122,109,0.2);font-weight:500}
+    .ela-msg.bot{background:#f0f0f0;color:#0A1F44;border-radius:4px 14px 14px 14px;box-shadow:0 1px 4px rgba(0,0,0,0.05);border-left:3px solid #C5A880}
+    .ela-input{display:flex;border-top:1px solid #e5e7eb;padding:14px;background:#fff;gap:8px}
+    .ela-input input{flex:1;padding:12px 14px;border-radius:10px;border:1.5px solid #e5e7eb;font-size:13px;font-family:Inter,sans-serif;transition:all 0.2s;background:#f9fafb}
+    .ela-input input:focus{outline:none;border-color:#C5A880;background:#fff;box-shadow:0 0 0 3px rgba(197,168,128,0.1)}
+    .ela-input input::placeholder{color:#999}
+    .ela-input button{background:linear-gradient(135deg,#1F7A6D 0%,#0A1F44 100%);color:#fff;border:none;padding:12px 16px;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(31,122,109,0.2)}
+    .ela-input button:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(31,122,109,0.3)}
+    .ela-input button:active{transform:translateY(0)}
+    .ela-loading{width:20px;height:20px;border:3px solid rgba(31,122,109,0.2);border-top-color:#1F7A6D;border-radius:50%;animation:ela-spin 1s linear infinite}
     @keyframes ela-spin{to{transform:rotate(360deg)}}
-    @media (max-width:640px){.ela-panel{right:8px;left:8px;width:auto;bottom:90px;height:60vh}}
+    @media (max-width:640px){.ela-panel{width:calc(100vw-32px);right:16px;left:16px;bottom:100px;height:55vh}}
 </style>
 
 <div class="ela-chat" aria-hidden="false">
     <div id="elaToggleWrapper">
-        <button id="elaToggle" class="ela-toggle" aria-expanded="false">EliteLedger Chat</button>
+        <button id="elaToggle" class="ela-toggle" aria-expanded="false">💬 Chat with us</button>
     </div>
     <div id="elaPanel" class="ela-panel" style="display:none;">
         <div class="ela-header">
-            <div style="width:40px;height:40px;border-radius:8px;background:#C5A880;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0A1F44">EL</div>
-            <div style="flex:1">
-                <div class="ela-title">EliteLedger Chat Assistant</div>
-                <div style="font-size:12px;opacity:0.85">Ask about accounting, tax, bookkeeping, CPA services</div>
+            <div class="ela-logo">EL</div>
+            <div class="ela-header-text">
+                <div class="ela-title">EliteLedger Assistant</div>
+                <div class="ela-subtitle">Accounting & Tax Expert</div>
             </div>
-            <button id="elaClose" title="Close" style="background:transparent;border:none;color:#fff;font-size:18px;cursor:pointer">✕</button>
+            <button id="elaClose" class="ela-close" title="Close">✕</button>
         </div>
         <div id="elaBody" class="ela-body" role="log" aria-live="polite"></div>
         <form id="elaForm" class="ela-input" onsubmit="return false;">
-            <input id="elaInput" type="text" placeholder="Type a question about accounting or tax..." aria-label="Message" autocomplete="off"/>
+            <input id="elaInput" type="text" placeholder="Ask about tax, accounting..." aria-label="Message" autocomplete="off"/>
             <button id="elaSend" type="button">Send</button>
         </form>
     </div>
@@ -277,7 +526,7 @@
     const input=document.getElementById('elaInput');
     const sendBtn=document.getElementById('elaSend');
 
-    let lastSent=0; // simple flood control
+    let lastSent=0;
 
     function openPanel(){ panel.style.display='flex'; toggleBtn.setAttribute('aria-expanded','true'); input.focus(); }
     function closePanel(){ panel.style.display='none'; toggleBtn.setAttribute('aria-expanded','false'); }
@@ -297,12 +546,10 @@
         lastSent = now; appendMessage(text,'user'); appendLoading(); sendBtn.disabled=true; input.disabled=true;
 
         try{
-            // POST to your server-side proxy at /api/gemini
             const API_ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:3000/api/gemini' : '/api/gemini';
             const res = await fetch(API_ENDPOINT, {
                 method:'POST', headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({
-                    // system prompt is included here but should be enforced server-side too
                     system: "You are a chatbot for EliteLedger Advisors LLC. Only answer questions related to accounting, bookkeeping, tax services, CPA advisory, and services provided by EliteLedger Advisors LLC. Do not answer unrelated questions. Keep answers professional and concise.",
                     message: text
                 })
@@ -320,8 +567,7 @@
     sendBtn.addEventListener('click', ()=>{ const v=input.value.trim(); if(!v) return; sendMessage(v); });
     input.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendBtn.click(); } });
 
-    // welcome message
-    appendMessage('Hi — I can help with accounting, tax, bookkeeping, and CPA services. Ask me anything related to EliteLedger Advisors LLC.', 'bot');
+    appendMessage('👋 Hi! I can help with tax, accounting, bookkeeping, and CPA services. What do you need?', 'bot');
 })();
 </script>
 <!-- END: EliteLedger Chat Assistant widget -->
