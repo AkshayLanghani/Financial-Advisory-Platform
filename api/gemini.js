@@ -2,72 +2,68 @@
 /**
  * Vercel serverless function to proxy requests to Google's Gemini API.
  * 
- * This uses the Gemini 2.5 Flash model (free tier):
- * - Model: gemini-2.5-flash
- * - Free input/output tokens
- * - Fast response times
- * - Supports text, image, video, audio
+ * Uses: gemini-2.5-flash (Free tier model)
+ * API Reference: https://ai.google.dev/api/generate-content
  * 
- * SETUP INSTRUCTIONS:
- * 1. Get your free API key: https://aistudio.google.com/app/apikey
- * 2. In Vercel Dashboard → Project Settings → Environment Variables
- * 3. Add: GEMINI_API_KEY = <your-api-key-here>
- * 4. Redeploy the project
- * 
- * Reference: https://ai.google.dev/pricing
+ * SETUP:
+ * 1. Get API key from: https://aistudio.google.com/app/apikey
+ * 2. Vercel Dashboard → Settings → Environment Variables
+ * 3. Add: GEMINI_API_KEY = <your-key>
+ * 4. Redeploy
  */
 
 export default async function handler(req, res) {
-  // CORS headers for browser requests
+  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // Only accept POST
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method Not Allowed' });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    // Parse request
     const { prompt } = req.body || {};
-    if (!prompt || typeof prompt !== 'string') {
-      return res.status(400).json({ error: 'Request must include "prompt" (string)' });
-    }
-
-    // Get API key from environment
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error('ERROR: GEMINI_API_KEY environment variable not set');
-      return res.status(500).json({ 
-        error: 'Server configuration error',
-        message: 'GEMINI_API_KEY not found in Vercel Environment Variables'
+    
+    if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
+      return res.status(400).json({ 
+        error: 'Invalid request',
+        details: 'prompt must be a non-empty string'
       });
     }
 
-    // Google Generative AI REST API endpoint (v1beta)
-    // Uses gemini-2.5-flash (free tier model)
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error('[FATAL] GEMINI_API_KEY not in environment variables');
+      return res.status(500).json({ 
+        error: 'Server not configured',
+        message: 'GEMINI_API_KEY environment variable missing'
+      });
+    }
+
+    console.log(`[gemini.js] Processing prompt: "${prompt.substring(0, 50)}..."`);
+
+    // Google API endpoint - v1beta with key auth
     const MODEL = 'gemini-2.5-flash';
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`;
 
-    // Request payload following Google's API format
-    const payload = {
+    console.log(`[gemini.js] Calling: ${API_URL.replace(apiKey, '***')}`);
+
+    const requestPayload = {
       contents: [
         {
           parts: [
             {
-              text: prompt
+              text: prompt.trim()
             }
           ]
         }
       ],
-      // Generation config - optimize for chat
       generationConfig: {
         temperature: 0.7,
         maxOutputTokens: 512,
@@ -76,37 +72,41 @@ export default async function handler(req, res) {
       }
     };
 
-    // Call Google's Gemini API
-    const response = await fetch(API_URL, {
+    const apiResponse = await fetch(API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestPayload)
     });
 
-    // Handle API errors
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('Gemini API error:', response.status, errorData);
+    console.log(`[gemini.js] API Response status: ${apiResponse.status}`);
+
+    const responseData = await apiResponse.json();
+
+    if (!apiResponse.ok) {
+      console.error(`[gemini.js] API error response:`, responseData);
       
-      return res.status(response.status).json({
-        error: 'Gemini API Error',
-        status: response.status,
-        message: errorData?.error?.message || 'Unable to generate response'
+      return res.status(apiResponse.status).json({
+        error: 'Gemini API error',
+        status: apiResponse.status,
+        details: responseData?.error?.message || JSON.stringify(responseData)
       });
     }
 
-    // Parse and forward the response
-    const data = await response.json();
-    
-    // Response format: data.candidates[0].content.parts[0].text
-    return res.status(200).json(data);
+    console.log(`[gemini.js] Success. Candidates: ${responseData.candidates?.length || 0}`);
+    console.log(`[gemini.js] Response:`, JSON.stringify(responseData).substring(0, 200));
+
+    // Verify response structure
+    if (!responseData.candidates || responseData.candidates.length === 0) {
+      console.warn('[gemini.js] No candidates in response');
+      return res.status(200).json(responseData);
+    }
+
+    return res.status(200).json(responseData);
 
   } catch (error) {
-    console.error('Serverless function error:', error);
+    console.error('[gemini.js] Exception:', error.message, error.stack);
     return res.status(500).json({
-      error: 'Internal Server Error',
+      error: 'Server error',
       message: error.message
     });
   }

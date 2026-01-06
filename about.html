@@ -95,7 +95,7 @@
             right: 0;
             background: white;
             border-bottom: 1px solid #e5e7eb;
-            shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 40;
         }
         
@@ -118,7 +118,8 @@
         .mobile-nav a {
             display: block;
             padding: 16px 24px;
-            text-sm font-medium;
+            font-size: 0.875rem;
+            font-weight: 500;
             color: #2E2E2E;
             border-bottom: 1px solid #f0f0f0;
             transition: all 0.2s;
@@ -366,16 +367,17 @@
 
 <!-- BEGIN: EliteLedger Chat Assistant widget -->
 <style>
-    .ela-chat{position:fixed;right:24px;bottom:24px;z-index:9999;font-family:Inter,Arial,system-ui}
+    .ela-chat{position:fixed;right:24px;bottom:24px;z-index:9999;font-family:sans-serif}
     .ela-toggle{background:linear-gradient(135deg,#1F7A6D 0%,#0A1F44 100%);color:#fff;border-radius:999px;padding:14px 18px;box-shadow:0 8px 24px rgba(31,122,109,0.3);cursor:pointer;border:none;font-weight:600;font-size:14px;transition:all 0.3s ease}
     .ela-toggle:hover{transform:scale(1.05);box-shadow:0 12px 32px rgba(31,122,109,0.4)}
     .ela-panel{width:400px;max-width:92vw;height:560px;max-height:80vh;background:#ffffff;border-radius:20px;box-shadow:0 20px 60px rgba(10,31,68,0.2);overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(197,168,128,0.2)}
     .ela-header{background:linear-gradient(135deg,#0A1F44 0%,#1F7A6D 100%);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
     .ela-logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#C5A880 0%,#1F7A6D 100%);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;box-shadow:0 4px 12px rgba(197,168,128,0.3)}
     .ela-header-text{flex:1}
-    .ela-title{font-weight:700;font-family:Playfair Display,serif;font-size:16px;color:#fff}
+    .ela-title{font-weight:700;font-family:'Playfair Display',serif;font-size:16px;color:#fff}
     .ela-subtitle{font-size:11px;opacity:0.9;color:#C5A880;margin-top:2px}
-    .ela-close{background:transparent;border:none;color:#fff;font-size:20px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all 0.2s;hover:background:rgba(255,255,255,0.1)}
+    .ela-close{background:transparent;border:none;color:#fff;font-size:20px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all 0.2s}
+    .ela-close:hover{background:rgba(255,255,255,0.1)}
     .ela-body{flex:1;padding:16px;overflow:auto;background:linear-gradient(to bottom,#f9fafb 0%,#fff 50%);font-size:14px;line-height:1.5}
     .ela-body::-webkit-scrollbar{width:6px}
     .ela-body::-webkit-scrollbar-track{background:#f0f0f0;border-radius:3px}
@@ -385,7 +387,7 @@
     .ela-msg.user{background:linear-gradient(135deg,#1F7A6D 0%,#16594f 100%);margin-left:auto;color:#fff;border-radius:14px 4px 14px 14px;box-shadow:0 2px 8px rgba(31,122,109,0.2);font-weight:500}
     .ela-msg.bot{background:#f0f0f0;color:#0A1F44;border-radius:4px 14px 14px 14px;box-shadow:0 1px 4px rgba(0,0,0,0.05);border-left:3px solid #C5A880}
     .ela-input{display:flex;border-top:1px solid #e5e7eb;padding:14px;background:#fff;gap:8px}
-    .ela-input input{flex:1;padding:12px 14px;border-radius:10px;border:1.5px solid #e5e7eb;font-size:13px;font-family:Inter,sans-serif;transition:all 0.2s;background:#f9fafb}
+    .ela-input input{flex:1;padding:12px 14px;border-radius:10px;border:1.5px solid #e5e7eb;font-size:13px;font-family:'Inter',sans-serif;transition:all 0.2s;background:#f9fafb}
     .ela-input input:focus{outline:none;border-color:#C5A880;background:#fff;box-shadow:0 0 0 3px rgba(197,168,128,0.1)}
     .ela-input input::placeholder{color:#999}
     .ela-input button{background:linear-gradient(135deg,#1F7A6D 0%,#0A1F44 100%);color:#fff;border:none;padding:12px 16px;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(31,122,109,0.2)}
@@ -455,6 +457,8 @@
                 ? 'http://localhost:3000/api/gemini' 
                 : '/api/gemini';
             
+            console.log('[sendMessage] Calling:', API_ENDPOINT, 'with prompt:', text.substring(0, 50));
+            
             const res = await fetch(API_ENDPOINT, {
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
@@ -463,29 +467,60 @@
                 })
             });
 
+            console.log('[sendMessage] Response status:', res.status);
+
             if(!res.ok) {
                 const errorData = await res.json().catch(() => ({}));
-                throw new Error(`API error (${res.status}): ${errorData?.error || 'Unknown error'}`);
+                console.error('[sendMessage] Error response:', res.status, errorData);
+                throw new Error(`HTTP ${res.status}: ${errorData?.error || 'Unknown error'}`);
             }
             
             const data = await res.json();
+            console.log('[sendMessage] Got response data:', JSON.stringify(data).substring(0, 300));
             removeLoading();
 
-            // Parse Gemini 2.5 Flash response: candidates[0].content.parts[0].text
-            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-                const responseText = data.candidates[0].content.parts[0].text;
-                appendMessage(responseText, 'bot');
-            } else if (data?.error) {
-                console.error('Gemini error:', data.error);
-                appendMessage(`Server error: ${data.error.message || 'Unable to process'}`, 'bot');
-            } else {
-                console.warn('Unexpected response format:', data);
-                appendMessage('Sorry — no reply received. Please try again.', 'bot');
+            if (!data) {
+                console.error('[sendMessage] Empty response data');
+                appendMessage('Empty response from server', 'bot');
+                return;
             }
+
+            if (data.error) {
+                console.error('[sendMessage] API returned error:', data.error);
+                appendMessage(`Server error: ${data.error.message || JSON.stringify(data.error)}`, 'bot');
+                return;
+            }
+
+            if (data.promptFeedback?.blockReason) {
+                console.warn('[sendMessage] Prompt blocked:', data.promptFeedback.blockReason);
+                appendMessage(`Request blocked: ${data.promptFeedback.blockReason}`, 'bot');
+                return;
+            }
+
+            if (data.candidates && data.candidates.length > 0) {
+                const candidate = data.candidates[0];
+                console.log('[sendMessage] Candidate finish reason:', candidate.finishReason);
+                
+                if (candidate.content?.parts && candidate.content.parts.length > 0) {
+                    const responseText = candidate.content.parts[0].text;
+                    if (responseText) {
+                        console.log('[sendMessage] Got text:', responseText.substring(0, 100));
+                        appendMessage(responseText, 'bot');
+                        return;
+                    }
+                }
+                
+                console.warn('[sendMessage] No text in candidate');
+                appendMessage('No text generated. Finish reason: ' + candidate.finishReason, 'bot');
+                return;
+            }
+
+            console.error('[sendMessage] No candidates in response');
+            appendMessage('No response generated from model', 'bot');
 
         } catch(err){
             removeLoading();
-            console.error('Chat error:', err);
+            console.error('[sendMessage] Exception:', err.message, err.stack);
             appendMessage(`Error: ${err.message}`, 'bot');
         } finally{
             sendBtn.disabled=false;
