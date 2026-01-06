@@ -448,28 +448,57 @@
     function removeLoading(){ const l=document.getElementById('ela-loading'); if(l) l.remove(); }
 
     async function sendMessage(text){
-        const now=Date.now(); if(now - lastSent < 1200) { appendMessage('Please wait a moment before sending another message.', 'bot'); return; }
-        lastSent = now; appendMessage(text,'user'); appendLoading(); sendBtn.disabled=true; input.disabled=true;
+        const now=Date.now();
+        if(now - lastSent < 1200) { appendMessage('Please wait a moment before sending another message.', 'bot'); return; }
+        lastSent = now;
+        appendMessage(text,'user');
+        appendLoading();
+        sendBtn.disabled=true;
+        input.disabled=true;
 
         try{
-            // POST to your server-side proxy at /api/gemini
-            const API_ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:3000/api/gemini' : '/api/gemini';
+            const API_ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') 
+                ? 'http://localhost:3000/api/gemini' 
+                : '/api/gemini';
+            
             const res = await fetch(API_ENDPOINT, {
-                method:'POST', headers:{'Content-Type':'application/json'},
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({
-                    // system prompt is included here but should be enforced server-side too
-                    system: "You are a chatbot for EliteLedger Advisors LLC. Only answer questions related to accounting, bookkeeping, tax services, CPA advisory, and services provided by EliteLedger Advisors LLC. Do not answer unrelated questions. Keep answers professional and concise.",
-                    message: text
+                    prompt: text
                 })
             });
 
-            if(!res.ok) throw new Error('Network response not ok');
+            if(!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                throw new Error(`API error (${res.status}): ${errorData?.error || 'Unknown error'}`);
+            }
+            
             const data = await res.json();
             removeLoading();
-            if(data && data.reply){ appendMessage(data.reply, 'bot'); }
-            else { appendMessage('Sorry — no reply received. Try again later.', 'bot'); }
-        }catch(err){ removeLoading(); appendMessage('Error contacting assistant. Please try again later.','bot'); console.error(err); }
-        finally{ sendBtn.disabled=false; input.disabled=false; input.value=''; input.focus(); }
+
+            // Parse Gemini 2.5 Flash response: candidates[0].content.parts[0].text
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                const responseText = data.candidates[0].content.parts[0].text;
+                appendMessage(responseText, 'bot');
+            } else if (data?.error) {
+                console.error('Gemini error:', data.error);
+                appendMessage(`Server error: ${data.error.message || 'Unable to process'}`, 'bot');
+            } else {
+                console.warn('Unexpected response format:', data);
+                appendMessage('Sorry — no reply received. Please try again.', 'bot');
+            }
+
+        } catch(err){
+            removeLoading();
+            console.error('Chat error:', err);
+            appendMessage(`Error: ${err.message}`, 'bot');
+        } finally{
+            sendBtn.disabled=false;
+            input.disabled=false;
+            input.value='';
+            input.focus();
+        }
     }
 
     sendBtn.addEventListener('click', ()=>{ const v=input.value.trim(); if(!v) return; sendMessage(v); });
